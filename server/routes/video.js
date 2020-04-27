@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models/User");
-const { Video } = require('../models/Video');
+const { Video } = require("../models/Video");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
@@ -59,10 +59,10 @@ router.post("/uploadVideo", (req, res) => {
 	const video = new Video(req.body);
 
 	video.save((err, doc) => {
-		if(err) return res.json({success:false, err});
+		if (err) return res.json({ success: false, err });
 
-		return res.status(200).json({success: true})
-	})
+		return res.status(200).json({ success: true });
+	});
 });
 // uploadVideo[end]
 
@@ -72,13 +72,13 @@ router.post("/thumbnail", (req, res) => {
 
 	let filePath = "";
 	let fileDuration = "";
-	
+
 	// 비디오 정보 가져오기
-	ffmpeg.ffprobe(req.body.url, function(err, metadata){
+	ffmpeg.ffprobe(req.body.url, function (err, metadata) {
 		console.log(metadata);
 		console.log(metadata.format.duration);
-		fileDuration = metadata.format.duration
-	})	
+		fileDuration = metadata.format.duration;
+	});
 
 	// 썸네일 생성
 	ffmpeg(req.body.url)
@@ -114,5 +114,28 @@ router.post("/thumbnail", (req, res) => {
 		});
 });
 // thumbnail[end]
+
+// getVideos[start]
+router.get("/getVideos", (req, res) => {
+	// 비디오를 DB에서 가져와서 클라이언트에 보낸다.
+	Video.find()
+		.populate("writer")
+		.exec((err, videos) => {
+			if (err) return res.status(400).send(err);
+			return res.status(200).json({ success: true, videos });
+		});
+});
+// getVideos[end]
+
+// getVideo[start] : videoDetailPage
+router.post("/getVideoDetail", (req, res) => {
+	Video.findOne({ _id: req.body.videoId })
+		.populate("writer")
+		.exec((err, videoDetail) => {
+			if (err) return res.status(400).send(err);
+			return res.status(200).json({ success: true, videoDetail });
+		});
+});
+// getVideo[end]
 
 module.exports = router;
