@@ -4,7 +4,8 @@ import moment from "moment";
 import styled from "styled-components";
 import { Row, Col } from "antd";
 
-import SideVideo from './Section/SideVideo';
+import SideVideo from "./Section/SideVideo";
+import Subscribe from "./Section/Subscribe";
 
 // style[START]
 const VideoWrapper = styled("div")`
@@ -42,14 +43,15 @@ const CreatedDate = styled("p")`
 const VideoInfo = styled("div")``;
 const Avatar = styled("div")`
 	width: 25px;
-  height: 25px;
-  margin-right: 15px;
+	height: 25px;
+	margin-right: 15px;
 
 	& > img {
 		display: block;
 		width: 100%;
 	}
 `;
+
 // style[END]
 
 function VideoDetailPage(props) {
@@ -67,10 +69,20 @@ function VideoDetailPage(props) {
 				alert("비디오 정보 가져오기에 실패하였습니다.");
 			}
 		});
-	}, [variable]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	// useEffect [END]
 
 	if (VideoDetail.writer) {
+		// 비디오가 자신의 비디오일땐 구독 버튼 가리기
+		const SubscribeButton = VideoDetail.writer._id !==
+			localStorage.getItem("userId") && (
+			<Subscribe
+				userTo={VideoDetail.writer._id}
+				userFrom={localStorage.getItem("userId")}
+			/>
+		);
+
 		return (
 			<Row>
 				{/* video [START] */}
@@ -100,7 +112,9 @@ function VideoDetailPage(props) {
 							</UserInfo>
 
 							{/* like,dislike, subscribe button [START] */}
-							<VideoInfo></VideoInfo>
+							<VideoInfo>
+								{SubscribeButton}
+							</VideoInfo>
 							{/* like,dislike, subscribe button [END] */}
 						</VideoDetailRow>
 						{/* videoDetail [END] */}

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models/User");
 const { Video } = require("../models/Video");
+const { Subscriber } = require("../models/Subscriber");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
@@ -121,11 +122,38 @@ router.get("/getVideos", (req, res) => {
 	Video.find()
 		.populate("writer")
 		.exec((err, videos) => {
-			if (err) return res.status(400).send(err);
+			if (err) return res.status(400).json({ success: false, err });
 			return res.status(200).json({ success: true, videos });
 		});
 });
 // getVideos[end]
+
+// getSubscriptionVideos [START]
+router.post("/getSubscriptionVideos", (req, res) => {
+	// 자신의 아이디를 가지고 구독하는 사람을 찾는다.
+	Subscriber.find({ userFrom: req.body.userFrom }).exec(
+		(err, subscriberInfos) => {
+			if (err) return res.status(400).json({ success: false, err });
+
+			let subscribeUser = [];
+
+			subscriberInfos.map((subscriber, index) => {
+				subscribeUser.push(subscriber.userTo);
+			});
+
+			// 찾은 사람들의 비디오를 가지고 온다.
+			// $in: 찾는것이 여러개일 때
+			// populate('writer'): writer에 대한 정보를 전부 긁어오고 싶을 때 // populate 안하면 단순 아이디(_id)만 굵어오기 때문에(위쪽에서 userTo만 넣어줌)
+			Video.find({ writer: { $in: subscribeUser } })
+				.populate("writer")
+				.exec((err, videos) => {
+					if (err) return res.status(400).json({ success: false, err });
+					return res.status(200).json({ success: true, videos });
+				});
+		}
+	);
+});
+// getSubscriptionVideos [END]
 
 // getVideo[start] : videoDetailPage
 router.post("/getVideoDetail", (req, res) => {

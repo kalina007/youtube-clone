@@ -7,6 +7,7 @@ import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import VideoUploadPage from "./views/VideoUploadPage/VideoUploadPage.js";
 import VideoDetailPage from "./views/VideoDetailPage/VideoDetailPage.js";
+import SubscriptionPage from "./views/SubscriptionPage/SubscriptionPage.js";
 
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
@@ -17,11 +18,13 @@ function App() {
       <NavBar />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
+          {/* null: 아무나 , true: 로그인 한사람만, false: 로그인 안한 사람만 */}
           <Route exact path="/" component={Auth(LandingPage, null)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />
           <Route exact path="/video/:videoId" component={Auth(VideoDetailPage, null)} />
+          <Route exact path="/subscription" component={Auth(SubscriptionPage, true)} />
         </Switch>
       </div>
       <Footer />
