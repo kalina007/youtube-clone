@@ -6,6 +6,7 @@ import { Row, Col } from "antd";
 
 import SideVideo from "./Section/SideVideo";
 import Subscribe from "./Section/Subscribe";
+import Comment from "./Section/Comment";
 
 // style[START]
 const VideoWrapper = styled("div")`
@@ -121,6 +122,7 @@ function VideoDetailPage(props) {
 					</VideoWrapper>
 
 					{/* comments [START] */}
+					<Comment postId={videoId}/>
 					{/* comments [END] */}
 				</Col>
 				{/* video [END] */}
