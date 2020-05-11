@@ -75,7 +75,7 @@ function VideoDetailPage(props) {
     Axios.post('/api/comment/getComments', variable).then((response) => {
       if (response.data.success) {
         setCommentList(response.data.comments);
-        console.log(response.data.comments);
+        // console.log(response.data.comments);
       } else {
         alert('코멘트 정보 가져오기에 실패하였습니다.');
       }
