@@ -7,6 +7,7 @@ import { Row, Col } from 'antd';
 import SideVideo from './Section/SideVideo';
 import Subscribe from './Section/Subscribe';
 import Comment from './Section/Comment';
+import LikeDislikes from './Section/LikeDislikes';
 
 // style[START]
 const VideoWrapper = styled('div')`
@@ -129,7 +130,14 @@ function VideoDetailPage(props) {
               </UserInfo>
 
               {/* like,dislike, subscribe button [START] */}
-              <VideoInfo>{SubscribeButton}</VideoInfo>
+              <VideoInfo>
+                <LikeDislikes
+                  video
+                  postId={videoId}
+                  userId={localStorage.getItem('userId')}
+                />
+                {SubscribeButton}
+              </VideoInfo>
               {/* like,dislike, subscribe button [END] */}
             </VideoDetailRow>
             {/* videoDetail [END] */}
