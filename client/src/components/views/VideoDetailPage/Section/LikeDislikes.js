@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { Tooltip, Icon } from 'antd';
 
 // styled [START]
-const contentWrapper = styled('div')`
+const ContentWrapper = styled('div')`
   display: flex;
 `;
-const contentItem = styled('div')`
+const ContentItem = styled('div')`
   margin-right: 10px;
 `;
-const contentNum = styled('span')`
+const ContentNum = styled('span')`
   padding-left: 8px;
   color: #333;
   font-size: 14px;
@@ -65,7 +65,7 @@ function LikeDislikes(props) {
         alert('Likes의 정보를 가져오는데 실패하였습니다.');
       }
     });
-  }, []);
+  }, [props.userId, variable]);
   // useEffect [END]
 
   // onLike [START]
@@ -135,8 +135,8 @@ function LikeDislikes(props) {
   // onDislike [END]
 
   return (
-    <contentWrapper>
-      <contentItem key="comment-basic-like">
+    <ContentWrapper>
+      <ContentItem key="comment-basic-like">
         <Tooltip title="Like">
           <Icon
             type="like"
@@ -144,10 +144,10 @@ function LikeDislikes(props) {
             onClick={onLike}
           />
         </Tooltip>
-        <contentNum>{LikeNumber}</contentNum>
-      </contentItem>
+        <ContentNum>{LikeNumber}</ContentNum>
+      </ContentItem>
 
-      <contentItem key="comment-basic-dislike">
+      <ContentItem key="comment-basic-dislike">
         <Tooltip title="Dislike">
           <Icon
             type="dislike"
@@ -155,9 +155,9 @@ function LikeDislikes(props) {
             onClick={onDislike}
           />
         </Tooltip>
-        <contentNum>{DislikeNumber}</contentNum>
-      </contentItem>
-    </contentWrapper>
+        <ContentNum>{DislikeNumber}</ContentNum>
+      </ContentItem>
+    </ContentWrapper>
   );
 }
 

@@ -67,7 +67,8 @@ const CommentDetail = styled('div')`
   align-items: center;
 `;
 const ReplyButton = styled('span')`
-  margin-right: 8px;
+  margin-right: 15px;
+  
   color: #777;
   font-size: 14px;
   font-weight: 500;
